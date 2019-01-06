@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:brewer="http://brewer.algaworks.com">
+	
+<head>
+	<title>Cadastro de OS</title>
+	
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1 th:if="${ordemServico.nova}">Cadastro de OS</h1>
+					<h1 th:unless="${ordemServico.nova}" th:text="|Edição do ${ordemServico.modeloEquipamento}|">Edição de OS</h1>
+				</div>
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/ordensservicos}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisa</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+	
+		<form method="POST" th:object="${ordemServico}" class="form-vertical  js-form-loading" 
+				th:action="${ordemServico.nova} ? @{/ordensservicos/nova} : @{/ordensservicos/{codigo}(codigo=${ordemServico.codigo})}">
+			<brewer:message/>
+			
+			<input type="hidden" th:field="*{codigo}"/>
+			
+			<div class="row">
+				<div class="col-sm-4  form-group  bw-required" brewer:classforerror="cliente">
+					<label for="cliente" class="control-label">Cliente</label>
+					<div class="bw-field-action">
+						<select id="cliente" class="form-control" th:field="*{cliente}">
+							<option value="">Selecione  cliente</option>
+							<option th:each="cliente : ${clientes}" th:value="${cliente.codigo}" th:text="${cliente.nome}">Pale lager</option>
+						</select>
+					</div>			
+				</div>
+				
+				<div class="col-sm-4  form-group  bw-required" brewer:classforerror="statusOS">
+					<label for="statusOS" class="control-label">Status OS</label>
+					<select id="statusOS" class="form-control" th:field="*{statusOS}">
+						<option value="">Selecione o status da OS</option>
+						<option th:each="statusOS : ${statusOSs}" th:value="${statusOS}" th:text="${statusOS.descricao}">Adocicada</option>
+					</select>
+				</div>
+				
+				<div class="col-sm-4  form-group  bw-required" brewer:classforerror="numeroSerieEquipamento">
+					<label for="numeroSerieEquipamento" class="control-label">Número de série equipamento</label>
+					<input id="numeroSerieEquipamento" type="text" class="form-control" th:field="*{numeroSerieEquipamento}"/>
+				</div>	
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-8  form-group  bw-required" brewer:classforerror="descricaoEquipamento">
+					<label for="descricaoEquipamento">Descrição equipamento</label>
+					<input id="descricaoEquipamento" type="text" class="form-control" th:field="*{descricaoEquipamento}"/>
+				</div>
+				
+				<div class="form-group  col-sm-4 bw-required" brewer:classforerror="marcaEquipamento">
+					<label for="marcaEquipamento">Marca equipamento</label>
+					<input id="marcaEquipamento" type="text" class="form-control" th:field="*{marcaEquipamento}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-12 bw-required" brewer:classforerror="defeitoEquipamento">
+					<label for="defeitoEquipamento">Defeito equipamento</label>
+					<textarea id="defeitoEquipamento" rows="5" class="form-control" th:field="*{defeitoEquipamento}"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-12 bw-required" brewer:classforerror="descricaoServico">
+					<label for="descricaoServico">Detalhamento serviço</label>
+					<textarea id="descricaoServico" rows="5" class="form-control" th:field="*{descricaoServico}"></textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-3 bw-required" brewer:classforerror="modeloEquipamento">
+					<label for="modeloEquipamento">Modelo equipamento</label>
+					<input id="modeloEquipamento" type="text" class="form-control" th:field="*{modeloEquipamento}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3 bw-required" brewer:classforerror="dataEmissao">
+					<label for="dataEmissao">Data emissão</label>
+					<input id="dataEmissao" type="text" class="form-control" th:field="*{dataEmissao}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3 bw-required" brewer:classforerror="dataEncerramento">
+					<label for="dataEncerramento">Data encerramento</label>
+					<input id="dataEncerramento" type="text" class="form-control" th:field="*{dataEncerramento}"/>
+				</div>
+				
+				<div class="col-sm-3  form-group  bw-required" brewer:classforerror="valor">
+					<label for="valor" class="control-label">Valor</label>
+					<div class="input-group">
+						<div class="input-group-addon">R$</div>
+						<input id="valor" type="text" class="form-control  js-decimal" th:field="*{valor}"/>
+					</div>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn  btn-primary">Salvar</button>				
+		</form>
+	</div>
+	
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/cliente.combo-estado-cidade.js}"></script>
+</th:block>
+
+</html>

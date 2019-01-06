@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:brewer="http://brewer.algaworks.com">
+	
+<head>
+	<title>Pesquisa de lançamentos</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisa de lançamentos</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/lancamentos/novo}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Novo lançamento</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<form method="GET" th:object="${lancamentoFilter}">
+			<div class="row">
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="descricao">Descrição</label>
+					<input type="text" class="form-control" id="descricao" autofocus="autofocus" th:field="*{descricao}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="tipoLancamento">Tipo lançamento</label>
+					<select id="tipoLancamento" class="form-control" th:field="*{tipoLancamento}">
+	                    <option value="">Todos os tipos</option>
+	                    <option th:each="tipoLancamento : ${tipoLancamentos}" th:text="${tipoLancamento.descricao}" th:value="${tipoLancamento}"></option>
+	                </select>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn  btn-primary">Pesquisar</button>
+		</form>
+		
+		<div class="table-responsive  bw-tabela-simples">
+			<table class="table  table-hover">
+				<thead>
+					<tr>
+						<th class="table-cervejas-col-sku">
+							<brewer:order page="${pagina}" field="tipoLancamento" text="Tipo lançamento"/>
+						</th>
+						<th class="table-cervejas-col-nome">
+							<brewer:order page="${pagina}" field="descricao" text="Descrição"/>
+						</th>
+						<th class="table-cervejas-col-estilo">Categoria</th>
+						<th class="table-cervejas-col-origem">Vencimento</th>
+						<th class="table-cervejas-col-valor">Valor</th>
+						<th class="table-cervejas-col-acoes"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="lancamento : ${pagina.conteudo}">
+						<td class="text-center" th:text="${lancamento.tipoLancamento.descricao}">AA1234</td>
+						<td th:text="${lancamento.descricao}">Cerveja Stella</td>
+						<td th:text="${lancamento.categoriaLancamento.nome}">Lager</td>
+						<td th:text="${lancamento.dataVencimento}">Internacional</td>
+						<td class="text-right" th:text="|R$ ${lancamento.valor}|">R$ 8.00</td>
+						<td class="text-center">
+							<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" 
+									th:href="@{/lancamentos/{codigo}(codigo=${lancamento.codigo})}"> 
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							<a class="btn  btn-link  btn-xs  js-tooltip  js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/lancamentos/{codigo}(codigo=${lancamento.codigo})}"
+									data:objeto="${lancamento.descricao}">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${pagina.vazia}">
+						<td colspan="7">Nenhum lançamento encontrado</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<brewer:pagination page="${pagina}"/>
+		
+	</div>
+
+</section>
+</body>
+</html>

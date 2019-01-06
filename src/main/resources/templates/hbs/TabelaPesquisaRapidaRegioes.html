@@ -1,0 +1,25 @@
+<script id="tabela-pesquisa-rapida-regiao" type="text/x-handlebars-template">
+<div class="table-responsive  bw-tabela-simples" style="margin-top: 15px">
+	<table class="table  table-hover">
+		<thead>
+			<tr>
+				<th class="col-sm-2">Nome</th>
+			</tr>
+		</thead>
+				
+		<tbody>
+			{{#if .}}
+				{{#each .}}
+					<tr data-codigo="{{codigo}}" data-nome="{{nome}}" class="js-regiao-pesquisa-rapida">
+						<td>{{nome}}</td>
+ 					</tr>
+				{{/each}}
+			{{else}}
+				<tr>
+					<td colspan="2">Nenhuma região encontrada</td>
+				</tr>
+			{{/if}}
+		</tbody>
+	</table>
+</div>
+</script>

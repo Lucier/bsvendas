@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:brewer="http://brewer.algaworks.com"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	
+<body>
+<aside class="aw-layout-sidebar  js-sidebar" th:fragment="layout-sidebar">
+	<div class="aw-layout-sidebar__content">
+
+    	<nav class="aw-menu  js-menu">
+      		<ul class="aw-menu__list">
+
+        		<li class="aw-menu__item" brewer:menu="@{/}">
+          			<a th:href="@{/}"><i class="fa  fa-fw  fa-home"></i><span>Dashboard</span></a>
+        		</li>
+        		
+        		<li class="aw-menu__item">
+          			<a href="#">
+            			<i class="fa  fa-fw  fa-credit-card"></i><span>Vendas</span>
+            			<i class="aw-menu__navigation-icon  fa"></i>
+          			</a>
+      
+          			<ul class="aw-menu__list  aw-menu__list--sublist">
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas.+}">
+			            	<a th:href="@{/vendas/nova}">Cadastro de venda</a>
+			            </li>
+			            
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/vendas}">
+			            	<a th:href="@{/vendas}">Pesquisa de vendas</a>
+			            </li>
+			        </ul>
+			    </li>
+
+        		<li class="aw-menu__item">
+          			<a href="#">
+            			<i class="fa  fa-fw  fa-truck"></i><span>Estoque</span>
+            			<i class="aw-menu__navigation-icon  fa"></i>
+          			</a>
+      
+          			<ul class="aw-menu__list  aw-menu__list--sublist">
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/categorias.*}">
+			            	<a th:href="@{/categorias}">Categorias</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/produtos.*}">
+			            	<a th:href="@{/produtos}">Produtos</a>
+			            </li>
+          			</ul>
+        		</li>
+
+        		<li class="aw-menu__item">
+          			<a href="#">
+            			<i class="fa  fa-fw  fa-database"></i><span>Cadastros</span>
+            			<i class="aw-menu__navigation-icon  fa"></i>
+          			</a>
+
+          			<ul class="aw-menu__list  aw-menu__list--sublist">
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/lancamentos.*}" sec:authorize="hasRole('ROLE_ADMIN')">
+			            	<a th:href="@{/lancamentos}">Lançametos</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/categoriaslancamentos.*}" sec:authorize="hasRole('ROLE_ADMIN')">
+			            	<a th:href="@{/categoriaslancamentos}">Categorias lançamentos</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/ordensservicos.*}">
+			            	<a th:href="@{/ordensservicos}">OS</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/regioes.*}">
+			            	<a th:href="@{/regioes}">Regiões</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/clientes.*}">
+			            	<a th:href="@{/clientes}">Clientes</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/fornecedores.*}">
+			            	<a th:href="@{/fornecedores}">Fornecedores</a>
+			            </li>
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/usuarios.*}" sec:authorize="hasRole('ROLE_ADMIN')">
+			            	<a th:href="@{/usuarios}">Usuários</a>
+			            </li>
+          			</ul>
+        		</li>
+        		
+        		<li class="aw-menu__item" sec:authorize="hasRole('ROLE_ADMIN')">
+          			<a href="#">
+            			<i class="fa  fa-fw  fa-file-pdf-o"></i><span>Relatórios</span>
+            			<i class="aw-menu__navigation-icon  fa"></i>
+          			</a>
+
+          			<ul class="aw-menu__list  aw-menu__list--sublist">
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/relatorios.+}">
+			            	<a th:href="@{/relatorios/vendasEmitidas}">Vendas emitidas</a>
+			            </li>
+			            
+			            <li class="aw-menu__item  aw-menu__item--link" brewer:menu="@{/relatorios}">
+			            	<a th:href="@{/relatorios/osanalise}">OS em análise</a>
+			            </li>
+          			</ul>
+        		</li>
+
+      		</ul>
+    	</nav>
+	</div>
+</aside>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:brewer="http://brewer.algaworks.com">
+	
+<head>
+	<title>Cadastro de lançamentos</title>
+	
+	<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1 th:if="${lancamento.novo}">Cadastro de lançamento</h1>
+					<h1 th:unless="${lancamento.novo}" th:text="|Edição do ${lancamento.descricao}|">Edição de lancamento</h1>
+				</div>
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/lancamentos}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Pesquisa</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+
+		<form method="POST" th:object="${lancamento}" class="form-vertical  js-form-loading" 
+				th:action="${lancamento.novo} ? @{/lancamentos/novo} : @{/lancamentos/{codigo}(codigo=${lancamento.codigo})}">
+			<brewer:message/>
+			
+			<input type="hidden" th:field="*{codigo}"/>
+			
+			
+			<div class="row">
+				<div class="col-sm-3  form-group  bw-required" brewer:classforerror="tipoLancamento">
+					<label for="tipoLancamento" class="control-label">RECEITA/DESPESA</label>
+					<select id="tipoLancamento" class="form-control" th:field="*{tipoLancamento}">
+						<option value="">Selecione o tipo de lançamento</option>
+						<option th:each="tipoLancamento : ${tipoLancamentos}" th:value="${tipoLancamento}" th:text="${tipoLancamento.descricao}">Adocicada</option>
+					</select>
+				</div>
+				
+				<div class="col-sm-3  form-group  bw-required" brewer:classforerror="categoriaLancamento">
+					<label for="categoriaLancamento" class="control-label">Categoria</label>
+					<div class="bw-field-action">
+						<select id="categoriaLancamento" class="form-control" th:field="*{categoriaLancamento}">
+							<option value="">Selecione a categoria</option>
+							<option th:each="categoriaLancamento : ${categoriasLancamentos}" th:value="${categoriaLancamento.codigo}" th:text="${categoriaLancamento.nome}">Pale lager</option>
+						</select>
+					</div>
+				
+				
+			
+			</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-3  form-group  bw-required" brewer:classforerror="dataVencimento">
+					<label for="dataVencimento" class="control-label">Vencimento</label>
+					<input id="dataVencimento" type="text" class="form-control" th:field="*{dataVencimento}"/>
+				</div>
+				
+				<div class="col-sm-3  form-group bw-required" brewer:classforerror="dataPagamento">
+					<label for="dataPagamento" class="control-label">Pagamento</label>
+					<input id="dataPagamento" type="text" class="form-control" th:field="*{dataPagamento}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-9  form-group bw-required" brewer:classforerror="descricao">
+					<label for="descricao" class="control-label">Descrição</label>
+					<input id="descricao" type="text" class="form-control" th:field="*{descricao}"/>
+				</div>
+				
+				<div class="col-sm-3  form-group  bw-required" brewer:classforerror="valor">
+					<label for="valor" class="control-label">Valor</label>
+					<div class="input-group">
+						<div class="input-group-addon">R$</div>
+						<input id="valor" type="text" class="form-control  js-decimal" th:field="*{valor}"/>
+					</div>
+				</div>			
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12 form-group">
+					<label for="observacao">Observação</label>
+					<textarea class="form-control" id="dataEntrega" rows="5" th:field=*{observacao}></textarea>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<button class="btn  btn-primary" type="submit">Salvar</button>
+			</div>
+			
+	</form>
+	</div>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/estilo.cadastro-rapido.js}"></script>
+	<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/upload.min.js}"></script>
+	<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>
+	<script th:src="@{/javascripts/cerveja.upload-foto.js}"></script>
+	
+</th:block>
+	
+</body>
+</html>

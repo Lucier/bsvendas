@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:brewer="http://brewer.algaworks.com">
+
+<head>
+<title>Cadastro de categoria</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1 th:if="${categoria.nova}">Cadastro de categoria</h1>
+					<h1 th:unless="${categoria.nova}"
+						th:text="|Edição da categoria ${categoria.descricao}|">Edição
+						de categoria</h1>
+				</div>
+
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/categorias}"> <i
+							class="glyphicon  glyphicon-plus-sign"></i> <span
+							class="hidden-xs  hidden-sm">Pesquisa</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+
+		<form method="POST" th:object="${categoria}"
+			th:action="${categoria.nova} ? @{/categorias/nova} : @{/categorias/{codigo}(codigo=${categoria.codigo})}">
+
+			<brewer:message />
+
+			<input type="hidden" th:field="*{codigo}" />
+
+			<div class="row">
+				<div class="form-group  col-sm-12  bw-required"
+					th:classappend="${#fields.hasErrors('descricao')} ? has-error">
+					<label for="descricao" class="control-label">Descrição</label> <input
+						type="text" class="form-control" id="descricao"
+						autofocus="autofocus" th:field="*{descricao}" />
+				</div>
+			</div>
+
+			<button type="submit" class="btn  btn-primary">Salvar</button>
+		</form>
+	</div>
+</section>
+
+</html>

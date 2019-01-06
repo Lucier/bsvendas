@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:brewer="http://brewer.algaworks.com">
+	
+<head>
+	<title>BrasilSolar</title>
+</head>
+
+<body>
+<section layout:fragment="conteudo">
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-10">
+					<h1>Pesquisa de ordens de serviços</h1>
+				</div>
+				
+				<div class="col-xs-2">
+					<div class="aw-page-header-controls">
+						<a class="btn  btn-default" th:href="@{/ordensservicos/nova}">
+							<i class="glyphicon  glyphicon-plus-sign"></i> <span class="hidden-xs  hidden-sm">Nova ordem de serviço</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<form method="GET" th:object="${ordemServicoFilter}">
+			<div class="row">
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="numeroSerieEquipamento">Número de série equipamento</label>
+					<input type="text" class="form-control" id="numeroSerieEquipamento" autofocus="autofocus" th:field="*{numeroSerieEquipamento}"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-6">
+					<label class="control-label" for="statusOS">Status OS</label>
+					<select id="statusOS" class="form-control" th:field="*{statusOS}">
+	                    <option value="">Status OS</option>
+	                    <option th:each="statusOS : ${statusOSs}" th:text="${statusOS.descricao}" th:value="${statusOS}"></option>
+	                </select>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn  btn-primary">Pesquisar</button>
+		</form>
+		
+		<div class="table-responsive  bw-tabela-simples">
+			<table class="table  table-hover">
+				<thead>
+					<tr>
+						<th class="table-cervejas-col-sku">
+							<brewer:order page="${pagina}" field="statusOS" text="Status OS"/>
+						</th>
+						<th class="table-cervejas-col-nome">
+							<brewer:order page="${pagina}" field="descricaoEquipamento" text="Descrição"/>
+						</th>
+						<th class="table-cervejas-col-origem">Nº de série</th>
+						<th class="table-cervejas-col-nome">Cliente</th>
+						<th class="table-cervejas-col-origem">Data emissão</th>
+						<th class="table-cervejas-col-nome">Valor</th>
+						<th class="table-cervejas-col-acoes"></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="ordemServico : ${pagina.conteudo}">
+						<td class="text-center" th:text="${ordemServico.statusOS.descricao}">AA1234</td>
+						<td th:text="${ordemServico.descricaoEquipamento}">Cerveja Stella</td>
+						<td th:text="${ordemServico.numeroSerieEquipamento}">Lager</td>
+						<td th:text="${ordemServico.cliente.nome}">Internacional</td>
+						<td th:text="${ordemServico.dataEmissao}">Lager</td>
+						<td th:text="${ordemServico.valor}">Lager</td>
+						<td class="text-center">
+							<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" 
+									th:href="@{/ordensservicos/{codigo}(codigo=${ordemServico.codigo})}"> 
+								<i class="glyphicon glyphicon-pencil"></i>
+							</a>
+							<a class="btn  btn-link  btn-xs  js-tooltip  js-exclusao-btn" title="Excluir" href="#" 
+									data:url="@{/ordensservicos/{codigo}(codigo=${ordemServico.codigo})}"
+									data:objeto="${ordemServico.numeroSerieEquipamento}">
+								<i class="glyphicon glyphicon-remove"></i>
+							</a>
+						</td>
+					</tr>
+					<tr th:if="${pagina.vazia}">
+						<td colspan="7">Nenhuma ordem de serviço encontrada</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<brewer:pagination page="${pagina}"/>
+		
+	</div>
+
+</section>
+</body>
+</html>

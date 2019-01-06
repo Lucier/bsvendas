@@ -1,0 +1,4 @@
+ALTER TABLE cerveja
+	MODIFY teor_alcoolico DECIMAL(10, 2) NULL,
+	MODIFY comissao DECIMAL(10, 2) NULL,
+	MODIFY sabor VARCHAR(50) NULL;
