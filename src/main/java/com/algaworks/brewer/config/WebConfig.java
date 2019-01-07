@@ -60,8 +60,8 @@ import nz.net.ultraq.thymeleaf.LayoutDialect;
 @ComponentScan(basePackageClasses = { CervejasController.class, TabelasItensSession.class })
 @EnableWebMvc
 @EnableSpringDataWebSupport
-@EnableCaching
-@EnableAsync
+//@EnableCaching
+//@EnableAsync
 public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
@@ -149,16 +149,16 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		return new FixedLocaleResolver(new Locale("pt", "BR"));
 	}
 	
-	@Bean
-	public CacheManager cacheManager() {
-		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
-				.maximumSize(3)
-				.expireAfterAccess(20, TimeUnit.SECONDS);
-		
-		GuavaCacheManager cacheManager = new GuavaCacheManager();
-		cacheManager.setCacheBuilder(cacheBuilder);
-		return cacheManager;
-	}
+//	@Bean
+//	public CacheManager cacheManager() {
+//		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
+//				.maximumSize(3)
+//				.expireAfterAccess(20, TimeUnit.DAYS);
+//		
+//		GuavaCacheManager cacheManager = new GuavaCacheManager();
+//		cacheManager.setCacheBuilder(cacheBuilder);
+//		return cacheManager;
+//	}
 	
 	@Bean
 	public MessageSource messageSource() {
