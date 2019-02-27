@@ -9,4 +9,6 @@ target/
 bin/
 rebel.xml
 .mvn*
-mvnw*
+mvnw
+.factorypath
+Restult.txt*
