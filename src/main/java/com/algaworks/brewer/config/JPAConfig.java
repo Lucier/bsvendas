@@ -32,13 +32,13 @@ import com.algaworks.brewer.repository.Cervejas;
 @ComponentScan(basePackageClasses = Cervejas.class)
 public class JPAConfig {
 
-//	@Profile("local")
-//	@Bean
-//	public DataSource dataSource() {
-//		JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
-//		dataSourceLookup.setResourceRef(true);
-//		return dataSourceLookup.getDataSource("jdbc/brewerDB");
-//	}
+	@Profile("local")
+	@Bean
+	public DataSource dataSource() {
+		JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+		dataSourceLookup.setResourceRef(true);
+		return dataSourceLookup.getDataSource("jdbc/brewerDB");
+	}
 	
 	
 	@Profile("prod")
